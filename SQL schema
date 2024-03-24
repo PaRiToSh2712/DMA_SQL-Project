@@ -1,0 +1,435 @@
+create Database Patient_Management_System_Project;
+use Patient_Management_System_Project;
+
+CREATE TABLE Patient (
+  Patient_id varchar(40),
+  Name varchar(255) default NULL,
+  DOB varchar(255),
+  Gender varchar(255) default NULL,
+  Contact varchar(100) default NULL,
+  Address varchar(255) default NULL,
+  doctor_id varchar(40),
+  PRIMARY KEY (Patient_id),
+  FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+) ;
+
+DROP TABLE Pharmacy;
+CREATE TABLE Pharmacy (
+  ph_id varchar(8) ,
+  Contact varchar(40),
+  p_Name varchar(255) default NULL,
+  location varchar(255),
+  PRIMARY KEY (ph_id)
+) ;
+
+
+CREATE TABLE department (
+    d_id VARCHAR(40),
+    hod VARCHAR(40),
+    d_name VARCHAR(50),
+    PRIMARY KEY (d_id)
+);
+
+CREATE TABLE Medication (
+    M_id VARCHAR(40),
+    M_name VARCHAR(40),
+    dosage VARCHAR(50),
+    prescription_date date,
+    doctor_id VARCHAR(40),
+    PRIMARY KEY (M_id),
+    FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+);
+
+CREATE TABLE Ward (
+    W_id VARCHAR(40),
+    W_name VARCHAR(40),
+    d_id VARCHAR(40),
+    PRIMARY KEY (d_id),
+    FOREIGN KEY (d_id) REFERENCES department(d_id)
+);
+
+CREATE TABLE Treatment(
+T_id VARCHAR(40),
+start_date date,
+end_date date,
+T_plan varchar(40),
+Diagnosis varchar(40),
+M_id varchar(40),
+PRIMARY KEY (T_id),
+FOREIGN KEY (M_id) REFERENCES Medication(M_id)
+);
+
+CREATE TABLE Appointment(
+A_id VARCHAR(40),
+A_date date,
+A_type VARCHAR(40),
+Patient_id varchar(40),
+doctor_id varchar(40),
+PRIMARY KEY (A_id),
+FOREIGN KEY (Patient_id) REFERENCES Patient(Patient_id),
+FOREIGN KEY (doctor_id) REFERENCES doctor(doctor_id)
+);
+
+CREATE TABLE Research_Project(
+Project_id VARCHAR(40),
+Project_name VARCHAR(40),
+lead_doctor VARCHAR(40),
+Start_date date,
+End_date date,
+PRIMARY KEY (Project_id)
+);
+
+
+DROP TABLE DOCTOR;
+ 
+Drop table Doctor;
+CREATE TABLE Doctor (
+Doctor_id VARCHAR(40),
+Doctor_name VARCHAR(40),
+specialization VARCHAR(40),
+contact VARCHAR(40),
+Project_id varchar(40),
+PRIMARY KEY (Doctor_id),
+FOREIGN KEY (Project_id) REFERENCES Research_Project(Project_id)
+);
+
+CREATE TABLE Staff (
+Staff_id VARCHAR(40),
+Staff_name VARCHAR(40),
+Contact VARCHAR(40),
+PRIMARY KEY (Staff_id)
+);
+
+CREATE TABLE Medication_Doctor(
+M_id varchar(40),
+Doctor_id varchar(40),
+FOREIGN KEY (M_id) REFERENCES Medication(M_id),
+FOREIGN KEY (Doctor_id) REFERENCES Doctor(Doctor_id)
+);
+
+CREATE TABLE Treatment_Patient(
+t_id varchar(40),
+Patient_id varchar(40),
+FOREIGN KEY (t_id) REFERENCES treatment(t_id),
+FOREIGN KEY (Patient_id) REFERENCES patient(Patient_id)
+);
+
+
+INSERT INTO Pharmacy (ph_id, Contact, p_Name, location) VALUES 
+('PH001', '123-456-7890', 'ABC Pharmacy', '123 Main Street'),
+('PH002', '456-789-0123', 'XYZ Pharmacy', '456 Elm Street'),
+('PH003', '789-012-3456', 'Healthline Pharmacy', '789 Oak Avenue');
+
+drop table department;
+INSERT INTO department (d_id, hod, d_name) VALUES 
+('001', 'Dr. Smith', 'Cardiology'),
+('002', 'Dr. Johnson', 'Neurology'),
+('003', 'Dr. Williams', 'Orthopedics'),
+('004', 'Dr. Brown', 'Oncology'),
+('005', 'Dr. Davis', 'Pediatrics'),
+('006', 'Dr. Miller', 'Gynecology'),
+('007', 'Dr. Wilson', 'Dermatology'),
+('008', 'Dr. Moore', 'Psychiatry'),
+('009', 'Dr. Taylor', 'Endocrinology'),
+('010', 'Dr. Anderson', 'Urology');
+
+
+INSERT INTO Research_Project (Project_id, Project_name, lead_doctor, Start_date, End_date) VALUES 
+('RP001', 'Cancer Immunotherapy Study', 'Dr. Thompson', '2023-05-15', '2025-05-15'),
+('RP002', 'Alzheimer\'s Disease Genetics Research', 'Dr. Rodriguez', '2023-08-20', '2025-08-20'),
+('RP003', 'Diabetes Prevention Program', 'Dr. Nguyen', '2023-07-10', '2025-07-10'),
+('RP004', 'Cardiovascular Disease Risk Factors ', 'Dr. Patel', '2023-09-01', '2025-09-01'),
+('RP005', 'Mental Health Intervention Trial', 'Dr. Walker', '2023-06-30', '2025-06-30');
+
+INSERT INTO Staff (Staff_id, Staff_name, Contact) VALUES 
+('S001', 'John Smith', '123-456-7890'),
+('S002', 'Emily Johnson', '456-789-0123'),
+('S003', 'Michael Williams', '789-012-3456'),
+('S004', 'Emma Jones', '234-567-8901'),
+('S005', 'Daniel Brown', '567-890-1234'),
+('S006', 'Sophia Davis', '678-901-2345'),
+('S007', 'Matthew Miller', '890-123-4567'),
+('S008', 'Olivia Garcia', '901-234-5678'),
+('S009', 'David Rodriguez', '345-678-9012'),
+('S010', 'Isabella Martinez', '456-789-0123'),
+('S011', 'Jacob Hernandez', '567-890-1234'),
+('S012', 'Charlotte Lopez', '678-901-2345'),
+('S013', 'Mason Gonzalez', '789-012-3456'),
+('S014', 'Ava Perez', '890-123-4567'),
+('S015', 'Ethan Wilson', '901-234-5678'),
+('S016', 'Amelia Carter', '234-567-8901'),
+('S017', 'Liam Torres', '345-678-9012'),
+('S018', 'Harper Morris', '456-789-0123'),
+('S019', 'Benjamin Rivera', '567-890-1234'),
+('S020', 'Evelyn Hall', '678-901-2345'),
+('S021', 'Alexander Wood', '789-012-3456'),
+('S022', 'Sofia Ward', '890-123-4567'),
+('S023', 'James Foster', '901-234-5678'),
+('S024', 'Avery Brooks', '234-567-8901'),
+('S025', 'Ella Long', '345-678-9012'),
+('S026', 'Logan Reed', '456-789-0123'),
+('S027', 'Aria Coleman', '567-890-1234'),
+('S028', 'Lucas Russell', '678-901-2345'),
+('S029', 'Grace Bell', '789-012-3456'),
+('S030', 'Jackson Sanders', '890-123-4567'),
+('S031', 'Madison Price', '901-234-5678'),
+('S032', 'Jack Hughes', '234-567-8901'),
+('S033', 'Scarlett Murphy', '345-678-9012'),
+('S034', 'Ryan Powell', '456-789-0123'),
+('S035', 'Chloe Jenkins', '567-890-1234'),
+('S036', 'Luke Perry', '678-901-2345'),
+('S037', 'Lily Foster', '789-012-3456'),
+('S038', 'Owen Bryant', '890-123-4567'),
+('S039', 'Layla Henderson', '901-234-5678'),
+('S040', 'Gabriel Simmons', '234-567-8901'),
+('S041', 'Zoe Cox', '345-678-9012'),
+('S042', 'Nathan Bryant', '456-789-0123'),
+('S043', 'Hannah Murphy', '567-890-1234'),
+('S044', 'Carter Gray', '678-901-2345'),
+('S045', 'Brooklyn Collins', '789-012-3456'),
+('S046', 'Henry Diaz', '890-123-4567'),
+('S047', 'Addison Ross', '901-234-5678'),
+('S048', 'Wyatt Nelson', '234-567-8901'),
+('S049', 'Audrey Barnes', '345-678-9012'),
+('S050', 'Leo Fisher', '456-789-0123');
+
+INSERT INTO Doctor (Doctor_id, Doctor_name, specialization, contact, Project_id) VALUES 
+('D001', 'Dr. John Smith', 'Cardiologist', '123-456-7890', 'RP001'),
+('D002', 'Dr. Emily Johnson', 'Orthopedic Surgeon', '456-789-0123', 'RP002'),
+('D003', 'Dr. Michael Williams', 'Neurologist', '789-012-3456', 'RP003'),
+('D004', 'Dr. Emma Jones', 'Ophthalmologist', '234-567-8901', 'RP004'),
+('D005', 'Dr. Daniel Brown', 'Pediatrician', '567-890-1234', 'RP005'),
+('D006', 'Dr. Sophia Davis', 'Oncologist', '678-901-2345', 'RP001'),
+('D007', 'Dr. Matthew Miller', 'Dermatologist', '890-123-4567', 'RP002'),
+('D008', 'Dr. Olivia Garcia', 'Psychiatrist', '901-234-5678', 'RP003'),
+('D009', 'Dr. David Rodriguez', 'Gynecologist', '345-678-9012', 'RP004'),
+('D010', 'Dr. Isabella Martinez', 'Urologist', '456-789-0123', 'RP005'),
+('D011', 'Dr. Jacob Hernandez', 'Cardiac Surgeon', '567-890-1234', 'RP001'),
+('D012', 'Dr. Charlotte Lopez', 'Neonatologist', '678-901-2345', 'RP002'),
+('D013', 'Dr. Mason Gonzalez', 'Neurosurgeon', '789-012-3456', 'RP003'),
+('D014', 'Dr. Ava Perez', 'Oncologist', '890-123-4567', 'RP004'),
+('D015', 'Dr. Ethan Wilson', 'Psychiatrist', '901-234-5678', 'RP005');
+
+INSERT INTO Doctor (Doctor_id, Doctor_name, specialization, contact, Project_id) VALUES 
+('DOC001', 'Dr. John Smith', 'Cardiologist', '123-456-7890', 'PRJ001'),
+('DOC002', 'Dr. Emily Johnson', 'Neurologist', '234-567-8901', 'PRJ002'),
+('DOC003', 'Dr. Michael Williams', 'Orthopedic Surgeon', '345-678-9012', 'PRJ003'),
+('DOC004', 'Dr. Sarah Brown', 'Oncologist', '456-789-0123', 'PRJ004'),
+('DOC005', 'Dr. Jennifer Davis', 'Pediatrician', '567-890-1234', 'PRJ005'),
+('DOC006', 'Dr. David Miller', 'Gynecologist', '678-901-2345', 'PRJ006'),
+('DOC007', 'Dr. Jessica Wilson', 'Dermatologist', '789-012-3456', 'PRJ007'),
+('DOC008', 'Dr. Matthew Moore', 'Psychiatrist', '890-123-4567', 'PRJ008'),
+('DOC009', 'Dr. Christopher Taylor', 'Endocrinologist', '901-234-5678', 'PRJ009'),
+('DOC010', 'Dr. Amanda Anderson', 'Urologist', '012-345-6789', 'PRJ010'),
+('DOC011', 'Dr. Mark Thompson', 'Ophthalmologist', '123-234-5678', 'PRJ011'),
+('DOC012', 'Dr. Laura Martinez', 'Gastroenterologist', '234-345-6789', 'PRJ012'),
+('DOC013', 'Dr. Kevin Clark', 'Hematologist', '345-456-7890', 'PRJ013'),
+('DOC014', 'Dr. Rachel White', 'Rheumatologist', '456-567-8901', 'PRJ014'),
+('DOC015', 'Dr. Megan Lee', 'Pulmonologist', '567-678-9012', 'PRJ015'),
+('DOC016', 'Dr. Brian King', 'Nephrologist', '678-789-0123', 'PRJ016'),
+('DOC017', 'Dr. Samantha Green', 'Allergist', '789-890-1234', 'PRJ017'),
+('DOC018', 'Dr. Daniel Harris', 'Geriatrician', '890-901-2345', 'PRJ018'),
+('DOC019', 'Dr. Kelly Carter', 'Otolaryngologist', '901-012-3456', 'PRJ019'),
+('DOC020', 'Dr. Jason Robinson', 'Infectious Disease Specialist', '012-123-4567', 'PRJ020');
+
+INSERT INTO Medication (M_id, M_name, dosage, prescription_date, doctor_id) VALUES 
+('M001', 'Aspirin', '100mg', '2024-03-01', 'DOC001'),
+('M002', 'Paracetamol', '500mg', '2024-03-02', 'DOC002'),
+('M003', 'Amoxicillin', '250mg', '2024-03-03', 'DOC003'),
+('M004', 'Lisinopril', '10mg', '2024-03-04', 'DOC004'),
+('M005', 'Simvastatin', '20mg', '2024-03-05', 'DOC005'),
+('M006', 'Metformin', '500mg', '2024-03-06', 'DOC006'),
+('M007', 'Prednisone', '5mg', '2024-03-07', 'DOC007'),
+('M008', 'Omeprazole', '20mg', '2024-03-08', 'DOC008'),
+('M009', 'Albuterol', '2mg', '2024-03-09', 'DOC009'),
+('M010', 'Ibuprofen', '200mg', '2024-03-10', 'DOC010'),
+('M011', 'Ciprofloxacin', '500mg', '2024-03-11', 'DOC011'),
+('M012', 'Gabapentin', '300mg', '2024-03-12', 'DOC012'),
+('M013', 'Metoprolol', '50mg', '2024-03-13', 'DOC013'),
+('M014', 'Levothyroxine', '100mcg', '2024-03-14', 'DOC014'),
+('M015', 'Warfarin', '5mg', '2024-03-15', 'DOC015');
+
+INSERT INTO Medication (M_id, M_name, dosage, prescription_date, doctor_id) VALUES 
+('M001', 'Aspirin', '100mg', '2024-03-01', 'D001'),
+('M002', 'Paracetamol', '500mg', '2024-03-02', 'D002'),
+('M003', 'Amoxicillin', '250mg', '2024-03-03', 'D003'),
+('M004', 'Lisinopril', '10mg', '2024-03-04', 'D004'),
+('M005', 'Simvastatin', '20mg', '2024-03-05', 'D005'),
+('M006', 'Metformin', '500mg', '2024-03-06', 'D006'),
+('M007', 'Prednisone', '5mg', '2024-03-07', 'D007'),
+('M008', 'Omeprazole', '20mg', '2024-03-08', 'D008'),
+('M009', 'Albuterol', '2mg', '2024-03-09', 'D009'),
+('M010', 'Ibuprofen', '200mg', '2024-03-10', 'D010'),
+('M011', 'Ciprofloxacin', '500mg', '2024-03-11', 'D011'),
+('M012', 'Gabapentin', '300mg', '2024-03-12', 'D012'),
+('M013', 'Metoprolol', '50mg', '2024-03-13', 'D013'),
+('M014', 'Levothyroxine', '100mcg', '2024-03-14', 'D014'),
+('M015', 'Warfarin', '5mg', '2024-03-15', 'D015');
+
+INSERT INTO Treatment (T_id, start_date, end_date, T_plan, Diagnosis, M_id) VALUES 
+('T001', '2024-03-01', '2024-03-15', 'Pain Management', 'Chronic Back Pain', 'M001'),
+('T002', '2024-03-02', '2024-03-16', 'Antibiotic Therapy', 'Respiratory Infection', 'M002'),
+('T003', '2024-03-03', '2024-03-17', 'Diabetes Management', 'Type 2 Diabetes', 'M003'),
+('T004', '2024-03-04', '2024-03-18', 'Hypertension Control', 'High Blood Pressure', 'M004'),
+('T005', '2024-03-05', '2024-03-19', 'Cholesterol Reduction', 'Hyperlipidemia', 'M005'),
+('T006', '2024-03-06', '2024-03-20', 'Insulin Therapy', 'Type 1 Diabetes', 'M006'),
+('T007', '2024-03-07', '2024-03-21', 'Immunosuppressive Therapy', 'Autoimmune Disease', 'M007'),
+('T008', '2024-03-08', '2024-03-22', 'Gastric Acid Reduction', 'Gastritis', 'M008'),
+('T009', '2024-03-09', '2024-03-23', 'Bronchodilation', 'Asthma', 'M009'),
+('T010', '2024-03-10', '2024-03-24', 'Pain Relief', 'Headache', 'M010'),
+('T011', '2024-03-11', '2024-03-25', 'Antibiotic Treatment', 'Urinary Tract Infection', 'M011'),
+('T012', '2024-03-12', '2024-03-26', 'Neuropathic Pain Management', 'Peripheral Neuropathy', 'M012'),
+('T013', '2024-03-13', '2024-03-27', 'Cardiac Rate Control', 'Atrial Fibrillation', 'M013'),
+('T014', '2024-03-14', '2024-03-28', 'Thyroid Hormone Replacement', 'Hypothyroidism', 'M014'),
+('T015', '2024-03-15', '2024-03-29', 'Anticoagulation', 'Deep Vein Thrombosis', 'M015');
+
+INSERT INTO Patient (Patient_id, Name, DOB, Gender, Contact, Address, doctor_id) VALUES 
+('P001', 'John Doe', '1990-01-01', 'Male', '123-456-7890', '123 Main St', 'D001'),
+('P002', 'Jane Smith', '1985-05-15', 'Female', '234-567-8901', '456 Elm St', 'D002'),
+('P003', 'Michael Johnson', '1978-09-20', 'Male', '345-678-9012', '789 Oak St', 'D003'),
+('P004', 'Emily Williams', '1982-03-10', 'Female', '456-789-0123', '101 Maple Ave', 'D004'),
+('P005', 'Sarah Brown', '1976-11-05', 'Female', '567-890-1234', '202 Pine St', 'D005'),
+('P006', 'David Davis', '1995-07-30', 'Male', '678-901-2345', '303 Cedar St', 'D006'),
+('P007', 'Jessica Miller', '1988-02-14', 'Female', '789-012-3456', '404 Birch St', 'D007'),
+('P008', 'Matthew Wilson', '1972-12-25', 'Male', '890-123-4567', '505 Oak St', 'D008'),
+('P009', 'Christopher Moore', '1980-08-18', 'Male', '901-234-5678', '606 Maple St', 'D009'),
+('P010', 'Amanda Taylor', '1992-06-12', 'Female', '012-345-6789', '707 Pine St', 'D010'),
+('P011', 'Mark Anderson', '1984-04-07', 'Male', '123-234-5678', '808 Cedar St', 'D011'),
+('P012', 'Laura Thompson', '1977-10-03', 'Female', '234-345-6789', '909 Birch St', 'D012'),
+('P013', 'Kevin Martinez', '1981-01-25', 'Male', '345-456-7890', '111 Elm St', 'D013'),
+('P014', 'Rachel Clark', '1993-09-15', 'Female', '456-567-8901', '222 Oak St', 'D014'),
+('P015', 'Megan White', '1979-05-20', 'Female', '567-678-9012', '333 Maple St', 'D015'),
+('P016', 'Brian Lee', '1996-07-10', 'Male', '678-789-0123', '444 Pine St', 'D001'),
+('P017', 'Samantha King', '1989-03-05', 'Female', '789-890-1234', '555 Cedar St', 'D002'),
+('P018', 'Daniel Green', '1973-11-28', 'Male', '890-901-2345', '666 Birch St', 'D003'),
+('P019', 'Kelly Harris', '1985-08-22', 'Female', '901-012-3456', '777 Elm St', 'D004'),
+('P020', 'Jason Carter', '1978-04-16', 'Male', '012-123-4567', '888 Oak St', 'D005'),
+('P021', 'Lauren Robinson', '1990-12-10', 'Female', '123-234-5678', '999 Maple St', 'D006'),
+('P022', 'Brandon Hall', '1983-06-05', 'Male', '234-345-6789', '111 Pine St', 'D007'),
+('P023', 'Alexis Baker', '1976-02-28', 'Female', '345-456-7890', '222 Cedar St', 'D008'),
+('P024', 'Justin Young', '1994-10-20', 'Male', '456-567-8901', '333 Birch St', 'D009'),
+('P025', 'Victoria Scott', '1979-07-15', 'Female', '567-678-9012', '444 Elm St', 'D010'),
+('P026', 'Ryan Lopez', '1982-04-10', 'Male', '678-789-0123', '555 Oak St', 'D011'),
+('P027', 'Taylor Gonzales', '1991-01-05', 'Female', '789-890-1234', '666 Maple St', 'D012'),
+('P028', 'Gabriel Perez', '1987-09-22', 'Male', '890-901-2345', '777 Pine St', 'D013'),
+('P029', 'Hannah Rivera', '1975-05-16', 'Female', '901-012-3456', '888 Cedar St', 'D014'),
+('P030', 'Austin Torres', '1992-12-10', 'Male', '012-123-4567', '999 Birch St', 'D015');
+
+
+
+
+INSERT INTO Appointment (A_id, A_date, A_type, Patient_id, doctor_id) VALUES 
+('A001', '2024-03-01', 'Follow-up', 'P001', 'D001'),
+('A002', '2024-03-02', 'Consultation', 'P002', 'D002'),
+('A003', '2024-03-03', 'Check-up', 'P003', 'D003'),
+('A004', '2024-03-04', 'Follow-up', 'P004', 'D004'),
+('A005', '2024-03-05', 'Consultation', 'P005', 'D005'),
+('A006', '2024-03-06', 'Check-up', 'P006', 'D006'),
+('A007', '2024-03-07', 'Follow-up', 'P007', 'D007'),
+('A008', '2024-03-08', 'Consultation', 'P008', 'D008'),
+('A009', '2024-03-09', 'Check-up', 'P009', 'D009'),
+('A010', '2024-03-10', 'Follow-up', 'P010', 'D010'),
+('A011', '2024-03-11', 'Consultation', 'P011', 'D011'),
+('A012', '2024-03-12', 'Check-up', 'P012', 'D012'),
+('A013', '2024-03-13', 'Follow-up', 'P013', 'D013'),
+('A014', '2024-03-14', 'Consultation', 'P014', 'D014'),
+('A015', '2024-03-15', 'Check-up', 'P015', 'D015'),
+('A016', '2024-03-16', 'Follow-up', 'P016', 'D001'),
+('A017', '2024-03-17', 'Consultation', 'P017', 'D002'),
+('A018', '2024-03-18', 'Check-up', 'P018', 'D003'),
+('A019', '2024-03-19', 'Follow-up', 'P019', 'D004'),
+('A020', '2024-03-20', 'Consultation', 'P020', 'D005'),
+('A021', '2024-03-21', 'Check-up', 'P021', 'D006'),
+('A022', '2024-03-22', 'Follow-up', 'P022', 'D007'),
+('A023', '2024-03-23', 'Consultation', 'P023', 'D008'),
+('A024', '2024-03-24', 'Check-up', 'P024', 'D009'),
+('A025', '2024-03-25', 'Follow-up', 'P025', 'D010');
+
+INSERT INTO Ward (W_id, W_name, d_id) VALUES 
+('W001', 'Cardiology Ward', '001'),
+('W002', 'Neurology Ward', '002'),
+('W003', 'Orthopedics Ward', '003'),
+('W004', 'Oncology Ward', '004'),
+('W005', 'Pediatrics Ward', '005'),
+('W006', 'Gynecology Ward', '006'),
+('W007', 'Dermatology Ward', '007'),
+('W008', 'Psychiatry Ward', '008'),
+('W009', 'Endocrinology Ward', '009'),
+('W010', 'Urology Ward', '010');
+
+
+INSERT INTO Patient (Patient_id, Name, DOB, Gender, Contact, Address, doctor_id) VALUES 
+('P031', 'Liam Wilson', '1988-05-10', 'Male', '123-456-7890', '123 Oak St', 'D011'),
+('P032', 'Olivia Brown', '1991-09-15', 'Female', '234-567-8901', '456 Cedar St', 'D012'),
+('P033', 'Noah Davis', '1984-03-20', 'Male', '345-678-9012', '789 Pine St', 'D013'),
+('P034', 'Emma Martinez', '1979-07-25', 'Female', '456-789-0123', '101 Elm St', 'D014'),
+('P035', 'William Jones', '1993-11-30', 'Male', '567-890-1234', '202 Maple St', 'D015'),
+('P036', 'Ava Garcia', '1981-01-05', 'Female', '678-901-2345', '303 Birch St', 'D001'),
+('P037', 'James Rodriguez', '1976-04-10', 'Male', '789-012-3456', '404 Oak St', 'D002'),
+('P038', 'Sophia Hernandez', '1995-08-15', 'Female', '890-123-4567', '505 Cedar St', 'D003'),
+('P039', 'Alexander Smith', '1989-12-20', 'Male', '901-234-5678', '606 Pine St', 'D004'),
+('P040', 'Isabella Nguyen', '1972-06-25', 'Female', '012-345-6789', '707 Elm St', 'D005'),
+('P041', 'Michael Kim', '1990-10-30', 'Male', '123-456-7890', '808 Oak St', 'D006'),
+('P042', 'Mia Lee', '1985-04-05', 'Female', '234-567-8901', '909 Cedar St', 'D007'),
+('P043', 'Benjamin Taylor', '1978-08-10', 'Male', '345-678-9012', '111 Maple St', 'D008'),
+('P044', 'Charlotte Brown', '1994-12-15', 'Female', '456-789-0123', '222 Birch St', 'D009'),
+('P045', 'William Baker', '1982-02-20', 'Male', '567-890-1234', '333 Oak St', 'D010'),
+('P046', 'Amelia Perez', '1987-06-25', 'Female', '678-901-2345', '444 Cedar St', 'D011'),
+('P047', 'Daniel Campbell', '1996-11-30', 'Male', '789-012-3456', '555 Pine St', 'D012'),
+('P048', 'Harper Evans', '1975-03-05', 'Female', '890-123-4567', '666 Elm St', 'D013'),
+('P049', 'Matthew Martinez', '1988-07-10', 'Male', '901-234-5678', '777 Oak St', 'D014'),
+('P050', 'Madison Coleman', '1983-09-15', 'Female', '012-345-6789', '888 Cedar St', 'D015');
+
+INSERT INTO Appointment (A_id, A_date, A_type, Patient_id, doctor_id) VALUES 
+('A026', '2024-03-01', 'Follow-up', 'P026', 'D006'),
+('A027', '2024-03-02', 'Consultation', 'P027', 'D007'),
+('A028', '2024-03-03', 'Check-up', 'P028', 'D008'),
+('A029', '2024-03-04', 'Follow-up', 'P029', 'D009'),
+('A030', '2024-03-05', 'Consultation', 'P030', 'D010'),
+('A031', '2024-03-06', 'Check-up', 'P031', 'D011'),
+('A032', '2024-03-07', 'Follow-up', 'P032', 'D012'),
+('A033', '2024-03-08', 'Consultation', 'P033', 'D013'),
+('A034', '2024-03-09', 'Check-up', 'P034', 'D014'),
+('A035', '2024-03-10', 'Follow-up', 'P035', 'D015'),
+('A036', '2024-03-11', 'Consultation', 'P036', 'D001'),
+('A037', '2024-03-12', 'Check-up', 'P037', 'D002'),
+('A038', '2024-03-13', 'Follow-up', 'P038', 'D003'),
+('A039', '2024-03-14', 'Consultation', 'P039', 'D004'),
+('A040', '2024-03-15', 'Check-up', 'P040', 'D005'),
+('A041', '2024-03-16', 'Follow-up', 'P041', 'D006'),
+('A042', '2024-03-17', 'Consultation', 'P042', 'D007'),
+('A043', '2024-03-18', 'Check-up', 'P043', 'D008'),
+('A044', '2024-03-19', 'Follow-up', 'P044', 'D009'),
+('A045', '2024-03-20', 'Consultation', 'P045', 'D010'),
+('A046', '2024-03-21', 'Check-up', 'P046', 'D011'),
+('A047', '2024-03-22', 'Follow-up', 'P047', 'D012'),
+('A048', '2024-03-23', 'Consultation', 'P048', 'D013'),
+('A049', '2024-03-24', 'Check-up', 'P049', 'D014'),
+('A050', '2024-03-25', 'Follow-up', 'P050', 'D015'),
+('A051', '2024-03-26', 'Consultation', 'P001', 'D001'),
+('A052', '2024-03-27', 'Check-up', 'P002', 'D002'),
+('A053', '2024-03-28', 'Follow-up', 'P003', 'D003'),
+('A054', '2024-03-29', 'Consultation', 'P004', 'D004'),
+('A055', '2024-03-30', 'Check-up', 'P005', 'D005'),
+('A056', '2024-03-31', 'Follow-up', 'P006', 'D006'),
+('A057', '2024-04-01', 'Consultation', 'P007', 'D007'),
+('A058', '2024-04-02', 'Check-up', 'P008', 'D008'),
+('A059', '2024-04-03', 'Follow-up', 'P009', 'D009'),
+('A060', '2024-04-04', 'Consultation', 'P010', 'D010'),
+('A061', '2024-04-05', 'Check-up', 'P011', 'D011'),
+('A062', '2024-04-06', 'Follow-up', 'P012', 'D012'),
+('A063', '2024-04-07', 'Consultation', 'P013', 'D013'),
+('A064', '2024-04-08', 'Check-up', 'P014', 'D014'),
+('A065', '2024-04-09', 'Follow-up', 'P015', 'D015'),
+('A066', '2024-04-10', 'Consultation', 'P016', 'D001'),
+('A067', '2024-04-11', 'Check-up', 'P017', 'D002'),
+('A068', '2024-04-12', 'Follow-up', 'P018', 'D003'),
+('A069', '2024-04-13', 'Consultation', 'P019', 'D004'),
+('A070', '2024-04-14', 'Check-up', 'P020', 'D005');
+
+
+
+
+
+
+
